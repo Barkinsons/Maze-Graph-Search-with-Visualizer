@@ -15,7 +15,7 @@ def get_walls_overlay(maze: Maze, tile_size: int, screen_size: tuple):
         for y in range(height):
             paint_tile_overlay(working_tile, y * Settings.maze_size[0] + x, maze)
             overlay.blit(working_tile, pg.Rect(x * tile_size, y * tile_size, tile_size, tile_size))
-            working_tile.fill(Settings.color_empty)
+            working_tile.fill((0, 0, 0, 0))
 
     return overlay
 
