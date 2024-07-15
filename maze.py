@@ -32,6 +32,9 @@ class Graph():
     
     def __repr__(self):
         return repr(self.graph)
+    
+    def __getitem__(self, key):
+        return self.graph[key]
 
 
 class Maze():
@@ -125,6 +128,9 @@ class Maze():
             maze_string += _cur + "\n" + _next + "\n"
 
         return maze_string
+    
+    def __getitem__(self, key):
+        return self.maze[key]
 
 
 if __name__ == "__main__":
