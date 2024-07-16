@@ -24,7 +24,7 @@ class App:
         self.tiles.draw(self.screen)
         self.screen.blit(self.wall_overlay, (0, 0))
         timer = 0
-        found = False
+        found = True
 
         while True:
             
@@ -34,9 +34,14 @@ class App:
                     pg.quit()
                     exit(0)
 
-            timer += self.clock.tick(60)
-            if not found and timer > .25:
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_SPACE:
+                        found = False
+
+            timer += self.clock.tick(60) / 1000
+            if not found and timer > .025:
                 if (self.search.step()): found = True
+                timer = 0
 
             pg.display.flip()
 
