@@ -18,7 +18,6 @@ class App:
         self.wall_overlay = get_walls_overlay(self.maze, Settings.tile_size, self.screen.get_size())
         self.tiles = Tiles(Settings.maze_size)
         self.search = a_star(self.maze, 0, (self.maze.size[0]*self.maze.size[1])-1, self)
-        print(self.search.dest)
 
     def run(self):
 
@@ -34,10 +33,6 @@ class App:
                 if event.type == pg.QUIT:
                     pg.quit()
                     exit(0)
-
-                # if event.type == pg.KEYDOWN:
-                #     if event.key == pg.K_1:
-                #         self.search.step()
 
             timer += self.clock.tick(60)
             if not found and timer > .25:
