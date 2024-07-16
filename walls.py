@@ -47,6 +47,6 @@ def paint_tile_overlay(working_tile: pg.Surface, vertex: int, maze: Maze):
         pg.draw.rect(working_tile, Settings.color_wall, pg.Rect(tile_size-_w, 0, _w, tile_size))
 
     # If vertex does not have bottom neighbor
-    if vertex + Settings.maze_size[1] not in _n:
+    if vertex + Settings.maze_size[0] not in _n:
         pg.draw.rect(working_tile, Settings.color_wall, pg.Rect(0, tile_size-_w, tile_size, _w))
     
