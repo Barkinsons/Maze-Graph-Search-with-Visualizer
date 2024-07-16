@@ -1,4 +1,4 @@
-# from math import abs
+from settings import Settings
 
 
 class a_star:
@@ -33,7 +33,8 @@ class a_star:
 
             for s in self.graph[q.vertex]:
                 if s == self.dest:
-                    self.app.change_tile(s, (255, 0, 0))
+                    self.app.change_tile(q.vertex, Settings.color_seen)
+                    self.app.change_tile(s, Settings.color_active)
                     return True
             
                 cell = a_star.Cell(s, q)
@@ -45,11 +46,9 @@ class a_star:
                     continue
                 
                 self.open.append(cell)
-                # print(self.open)
 
             self.closed.append(q)
-            print(self.closed)
-            self.app.change_tile(q.vertex, (0, 0, 255))
+            self.app.change_tile(q.vertex, Settings.color_seen)
             self.open.sort(key=lambda x: x.f, reverse=True)
 
     def calculate_h(self, src, dest):
