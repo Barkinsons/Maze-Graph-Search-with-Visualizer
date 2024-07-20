@@ -13,7 +13,7 @@ def get_walls_overlay(maze: Maze, tile_size: int, screen_size: tuple):
     working_tile = pg.Surface((tile_size, tile_size), pg.SRCALPHA)
     for x in range(width):
         for y in range(height):
-            paint_tile_overlay(working_tile, y * Settings.maze_size[0] + x, maze)
+            paint_tile_overlay(working_tile, y * Settings.size[0] + x, maze)
             overlay.blit(working_tile, pg.Rect(x * tile_size, y * tile_size, tile_size, tile_size))
             working_tile.fill((0, 0, 0, 0))
 
@@ -39,7 +39,7 @@ def paint_tile_overlay(working_tile: pg.Surface, vertex: int, maze: Maze):
         pg.draw.rect(working_tile, Settings.color_wall, pg.Rect(0, 0, _w, tile_size))
 
     # If vertex does not have top neighbor
-    if vertex - Settings.maze_size[0] not in _n:
+    if vertex - Settings.size[0] not in _n:
         pg.draw.rect(working_tile, Settings.color_wall, pg.Rect(0, 0, tile_size, _w))
 
     # If vertex does not have right neighbor
@@ -47,6 +47,6 @@ def paint_tile_overlay(working_tile: pg.Surface, vertex: int, maze: Maze):
         pg.draw.rect(working_tile, Settings.color_wall, pg.Rect(tile_size-_w, 0, _w, tile_size))
 
     # If vertex does not have bottom neighbor
-    if vertex + Settings.maze_size[0] not in _n:
+    if vertex + Settings.size[0] not in _n:
         pg.draw.rect(working_tile, Settings.color_wall, pg.Rect(0, tile_size-_w, tile_size, _w))
     
