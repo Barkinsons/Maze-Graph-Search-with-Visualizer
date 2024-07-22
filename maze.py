@@ -195,7 +195,7 @@ if __name__ == "__main__":
     m = SquareMaze(size)
 
     print("Generating maze...")
-    while m.step() != None:
+    while m.step() != True:
         pass
 
     print(f"\t{m}\n")
@@ -206,7 +206,7 @@ if __name__ == "__main__":
     t = TriangleMaze(size)
 
     print("Generating maze...")
-    while t.step() != None:
+    while t.step() != True:
         pass
 
     print(f"\t{t}\n")

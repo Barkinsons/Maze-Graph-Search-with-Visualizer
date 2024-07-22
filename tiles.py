@@ -13,7 +13,7 @@ class Tile():
 
         self.color = Settings.color_empty
         self.walls = pg.Surface((Settings.tile_size, Settings.tile_size), pg.SRCALPHA)
-        self.shape = self.walls.copy()
+        self.shape = pg.Surface((Settings.tile_size, Settings.tile_size), pg.SRCALPHA)
 
     def draw(self, screen: pg.Surface):
         """Draw shape and walls on surface."""
@@ -85,7 +85,72 @@ class SquareTile(Tile):
         SquareTile utilizes pygame.draw.rect and therefore does not implement generate_shape.
         """
         pass
-  
+
+
+class TriangleTile(Tile):
+    """Tile class for triangle tiles."""
+
+    def __init__(self, x, y):
+        super().__init__(x, y)
+
+        self.coords = []
+        self.upright = None
+        self.dest = None
+        self.set_coords()
+
+    def draw(self, screen: pg.Surface):
+        screen.blit(self.shape, self.dest)
+        screen.blit(self.walls, self.dest)
+
+    def generate_shape(self):
+        
+        self.shape.fill((0, 0, 0, 0))
+
+        pg.draw.polygon(self.shape, self.color, self.coords)
+
+    def generate_walls(self, neighbors: list[int]):
+        """Generate wall overlay surface based on neighbors."""
+
+        self.walls.fill((0, 0, 0, 0))
+
+        v = self.y * Settings.size[0] + self.x
+
+        # If there is no left neighbor
+        if v-1 not in neighbors:
+            pg.draw.line(self.walls, Settings.color_wall, self.coords[0], self.coords[1], Settings.wall_width)
+
+        # If there is no right neighbor
+        if v+1 not in neighbors:
+            pg.draw.line(self.walls, Settings.color_wall, self.coords[1], self.coords[2], Settings.wall_width)
+
+        # If there is no bottom/top neighbor
+        if v+Settings.size[0] not in neighbors and v-Settings.size[0] not in neighbors:
+            pg.draw.line(self.walls, Settings.color_wall, self.coords[2], self.coords[0], Settings.wall_width)
+
+
+    def set_coords(self):
+        """Calculate and set coordinates for drawing a polygon."""
+
+        x = self.x * Settings.tile_size // 2
+        y = self.y * Settings.tile_size
+        self.dest = (x, y)
+        half_w = Settings.tile_size // 2
+        
+        row_even, col_even = self.x % 2 == 0, self.y % 2 == 0
+        self.upright = (row_even and col_even) or (not (row_even or col_even))
+
+        # Upright triangle.
+        if self.upright:
+            self.coords.append((0, Settings.tile_size))
+            self.coords.append((half_w, 0))
+            self.coords.append((Settings.tile_size, Settings.tile_size))
+
+        # Upside down triangle.
+        else:
+            self.coords.append((0, 0))
+            self.coords.append((half_w, Settings.tile_size))
+            self.coords.append((Settings.tile_size, 0))
+        
 
 class Tiles(list):
     """Container for holding, drawing, and settings multiple tile attributes."""
